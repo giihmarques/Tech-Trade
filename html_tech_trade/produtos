@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <title>Produtos</title>
+
+</head>
+<body>
+  
+ <nav class="navbar">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="./tech_trade_imagens/banner2.jpg" alt="Logo" />
+    </div>
+
+    <!-- Links do menu -->
+    <ul class="nav-links">
+      <li><a href="index.htm">HOME</a></li>
+      <li><a href="#">SOBRE</a></li>
+      <li><a href="#">TROCA DE APARELHOS</a></li>
+      <li><a href="login.htm">CADASTRO</a></li>
+    </ul>
+  </nav>
+
+   
+    <!-- Conteúdo principal da página de locais -->
+    <main class="locais-container">
+        <!-- Título da página -->
+        <h1 class="titulo-principal">LOCAIS E APARELHOS</h1>
+        
+        <!-- Seção de filtros -->
+        <section class="filtros-container">
+            <h2 class="filtros-titulo">FILTROS</h2>
+            <ul class="filtros-lista">
+                <li><strong>Preço</strong></li>
+                <li><strong>Categoria</strong></li>
+                <li><strong>Estado</strong></li>
+                <li><strong>Localização</strong></li>
+            </ul>
+        </section>
+        
+        <!-- Linha divisória -->
+        <hr class="divisor">
+        
+        <!-- Lista de locais -->
+        <section class="locais-lista">
+            <!-- Card de local 1 -->
+            <div class="local-card">
+                <img src="/tech_trade_imagens/iphone_venda1.jpg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Iphone 13 - Usado</h3>
+                <p class="local-endereco">De R$800 por R$670</p>
+                <p class="local-endereco">Em até 6x sem juros - S. Bernardo do Campo</p>
+                <p class="local-info">Colocar no carrinho</p>
+            </div>
+            
+            <!-- Card de local 2 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/iphone_venda2.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Iphone 11 - Usado</h3>
+                <p class="local-endereco">De R$600 por R$580</p>
+                <p class="local-endereco">Em até 6x sem juros - São Caetano do Sul</p>
+                <p class="local-info">Colocar no carrinho</p>
+            </div>
+            
+            <!-- Card de local 3 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/iphone_venda3.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Iphone 15 - Semi Novo</h3>
+                <p class="local-endereco">De R$980 por R$890</p>
+                <p class="local-endereco">Em até 6x sem juros - Santo André</p>
+                <p class="local-info">Colocar no carrinho</p>
+            </div>
+            
+            <!-- Card de local 4 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/samsungvenda1.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Samsung Galaxy S20</h3>
+                <p class="local-endereco">De R$889 por R$830</p>
+                <p class="local-endereco">Em até 6x sem juros - S. Bernardo do Campo</p>
+                <p class="local-info">Colocar no carrinho</p>
+            </div>
+
+            <!-- Card de local 5 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/samsungvenda2.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Samsung Galaxy S21FE</h3>
+                <p class="local-endereco">De R$679 por R$650</p>
+                <p class="local-endereco">Em até 6x sem juros - Santo André</p>
+                <p class="local-info">Colocar no carrinho</p>
+            </div>
+
+            <!-- Card de local 6 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/samsungvenda3.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Samsung A50</h3>
+                <p class="local-endereco">De R$490 por R$468</p>
+                <p class="local-endereco">Em até 6x sem juros - S. Bernardo do Campo</p>
+                <p class="local-info">Colocar no carrinho</p>
+            </div>
+
+        </section>
+        
+        <!-- Paginação -->
+        <div class="paginacao">
+            <div class="paginacao-numeros">
+                <a href="#" class="paginacao-numero">2</a>
+                <a href="#" class="paginacao-numero">3</a>
+                <a href="#" class="paginacao-numero">4</a>
+            
+            </div>
+        </div>
+    </main>
+
+   
+
+
+
+
+
+
+
+</body>
+</html>
