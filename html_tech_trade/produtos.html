@@ -8,6 +8,74 @@
     
     <title>Produtos</title>
 
+    <style>
+        /* ===== Modal ===== */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 999;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0,0,0,0.5);
+        }
+
+        /* Ativa quando clicado no link */
+        .modal:target {
+          display: block;
+        }
+
+        .modal-content {
+          background-color: #fff;
+          margin: 12% auto;
+          padding: 20px;
+          border-radius: 8px;
+          width: 400px;
+          text-align: center;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          position: relative;
+          animation: fadeIn 0.3s ease;
+        }
+
+        /* Animação suave */
+        @keyframes fadeIn {
+          from {opacity: 0; transform: translateY(-20px);}
+          to {opacity: 1; transform: translateY(0);}
+        }
+
+        .fechar {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          text-decoration: none;
+          font-size: 22px;
+          color: black;
+        }
+
+        .modal-botoes {
+          margin-top: 20px;
+          display: flex;
+          gap: 20px;
+          justify-content: space-around;
+        }
+
+        .continuar {
+          background-color: #ababab;
+          padding: 10px 10px;
+          border-radius: 5px;
+          color: white;
+          text-decoration: none;
+        }
+
+        .ir-carrinho {
+          background-color: #3498db;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 5px;
+          text-decoration: none;
+        }
+    </style>
 </head>
 <body>
   
@@ -54,7 +122,8 @@
                 <h3 class="local-titulo">Iphone 13 - Usado</h3>
                 <p class="local-endereco">De R$800 por R$670</p>
                 <p class="local-endereco">Em até 6x sem juros - S. Bernardo do Campo</p>
-                <p class="local-info">Colocar no carrinho</p>
+                <p class="local-endereco">Teste estoque - 1/10</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
             </div>
             
             <!-- Card de local 2 -->
@@ -63,7 +132,7 @@
                 <h3 class="local-titulo">Iphone 11 - Usado</h3>
                 <p class="local-endereco">De R$600 por R$580</p>
                 <p class="local-endereco">Em até 6x sem juros - São Caetano do Sul</p>
-                <p class="local-info">Colocar no carrinho</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
             </div>
             
             <!-- Card de local 3 -->
@@ -72,7 +141,7 @@
                 <h3 class="local-titulo">Iphone 15 - Semi Novo</h3>
                 <p class="local-endereco">De R$980 por R$890</p>
                 <p class="local-endereco">Em até 6x sem juros - Santo André</p>
-                <p class="local-info">Colocar no carrinho</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
             </div>
             
             <!-- Card de local 4 -->
@@ -81,7 +150,7 @@
                 <h3 class="local-titulo">Samsung Galaxy S20</h3>
                 <p class="local-endereco">De R$889 por R$830</p>
                 <p class="local-endereco">Em até 6x sem juros - S. Bernardo do Campo</p>
-                <p class="local-info">Colocar no carrinho</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
             </div>
 
             <!-- Card de local 5 -->
@@ -90,7 +159,7 @@
                 <h3 class="local-titulo">Samsung Galaxy S21FE</h3>
                 <p class="local-endereco">De R$679 por R$650</p>
                 <p class="local-endereco">Em até 6x sem juros - Santo André</p>
-                <p class="local-info">Colocar no carrinho</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
             </div>
 
             <!-- Card de local 6 -->
@@ -99,7 +168,7 @@
                 <h3 class="local-titulo">Samsung A50</h3>
                 <p class="local-endereco">De R$490 por R$468</p>
                 <p class="local-endereco">Em até 6x sem juros - S. Bernardo do Campo</p>
-                <p class="local-info">Colocar no carrinho</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
             </div>
 
         </section>
@@ -115,13 +184,20 @@
         </div>
     </main>
 
-   
-
-
-
-
-
-
+    <!-- Modal único -->
+    <div id="modalCarrinho" class="modal">
+      <div class="modal-content">
+        <a href="#" class="fechar">&times;</a>
+        <div class="modal-body">
+          <h3>🛒 Produto adicionado ao carrinho!</h3>
+          <p>O que você deseja fazer agora?</p>
+          <div class="modal-botoes">
+            <a href="#" class="continuar">CONTINUAR COMPRANDO</a>
+            <a href="confirmar_compra.html" class="ir-carrinho">IR PARA O CARRINHO</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
 </body>
 </html>

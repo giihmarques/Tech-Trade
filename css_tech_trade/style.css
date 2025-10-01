@@ -19,9 +19,17 @@ padding: 10px 30px;
 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.logo img {
-height: 60px; /* ajuste conforme necessário */
-}
+.logo {
+ font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(13, 13, 13);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: #3498db;
+        }
+
 
 /*NAVBAR*/
 .nav-links {
@@ -50,7 +58,7 @@ color: #5182ff;
 
 .banner {
 height: 400px;
-background: url("./tech_trade_imagens/banner.jpg") center/cover no-repeat; /* imagem de fundo */
+background: url("/tech_trade_imagens/banner.jpg") center/cover no-repeat; /* imagem de fundo */
 display: flex;
 margin-top: 15px;
 flex-direction: column;
@@ -159,7 +167,7 @@ transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
 
 .banner2 {
 height: 300px;
-background: url("./tech_trade_imagens/banner2.jpg") center/cover no-repeat; /* imagem de fundo */
+background: url("/tech_trade_imagens/banner2.jpg") center/cover no-repeat; /* imagem de fundo */
 display: flex;
 margin-top: 100px;
 flex-direction: column;
@@ -291,7 +299,7 @@ body {
 
 .banner {
     height: 400px;
-    background: url("./tech_trade_imagens/banner.jpg") center/cover no-repeat; /* imagem de fundo */
+    background: url("/tech_trade_imagens/banner.jpg") center/cover no-repeat; /* imagem de fundo */
     display: flex;
     margin-top: 15px;
     flex-direction: column;
@@ -397,7 +405,7 @@ body {
 
 .banner2 {
     height: 300px;
-    background: url("./tech_trade_imagens/banner2.jpg") center/cover no-repeat; /* imagem de fundo */
+    background: url("/tech_trade_imagens/banner2.jpg") center/cover no-repeat; /* imagem de fundo */
     display: flex;
     margin-top: 100px;
     flex-direction: column;
