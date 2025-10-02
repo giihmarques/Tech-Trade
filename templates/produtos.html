@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css_tech_trade/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Produtos</title>
+
+    <style>
+        /* Modal visuals */
+        .modal { display:none; position:fixed; z-index:999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); }
+        .modal:target { display:block; }
+        .modal-content { background:#fff; margin:8% auto; padding:16px; border-radius:8px; width:420px; position:relative; }
+        .fechar{ position:absolute; right:12px; top:8px; text-decoration:none; font-size:20px; }
+        .local-card{ display:inline-block; width:300px; margin:12px; vertical-align:top; border:1px solid #eee; padding:12px; border-radius:8px; }
+        .local-thumb{ width:100%; height:180px; object-fit:cover; border-radius:6px; }
+    </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo"><img src="/tech_trade_imagens/banner2.jpg" alt="Logo"></div>
+    <ul class="nav-links">
+      <li><a href="/">HOME</a></li>
+      <li><a href="#">SOBRE</a></li>
+      <li><a href="#">TROCA DE APARELHOS</a></li>
+      <li><a href="/login">CADASTRO</a></li>
+    </ul>
+  </nav>
+
+  <main class="locais-container">
+    <h1 class="titulo-principal">LOCAIS E APARELHOS</h1>
+
+    <section class="filtros-container">
+      <h2 class="filtros-titulo">FILTROS</h2>
+      <ul class="filtros-lista"><li><strong>Preço</strong></li><li><strong>Categoria</strong></li><li><strong>Estado</strong></li><li><strong>Localização</strong></li></ul>
+    </section>
+
+    <hr class="divisor">
+
+    <section class="locais-lista">
+      {% if products %}
+        {% for p in products %}
+          <div class="local-card">
+            <img src="{{ p.image_url }}" alt="{{ p.title }}" class="local-thumb">
+            <h3 class="local-titulo">{{ p.title }}</h3>
+            <p class="local-endereco">De R${{ '%.0f'|format(p.old_price) }} por R${{ '%.0f'|format(p.price) }}</p>
+            <p class="local-endereco">{{ p.installments }} • {{ p.location }}</p>
+            <p class="local-endereco">Estoque: {{ p.stock }}</p>
+            <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>Nenhum produto disponível.</p>
+      {% endif %}
+    </section>
+
+  </main>
+
+  <div id="modalCarrinho" class="modal">
+    <div class="modal-content">
+      <a href="#" class="fechar">&times;</a>
+      <div class="modal-body">
+        <h3>🛒 Produto adicionado ao carrinho!</h3>
+        <div class="modal-botoes"><a href="#" class="continuar">CONTINUAR COMPRANDO</a> <a href="/confirmar_compra" class="ir-carrinho">IR PARA O CARRINHO</a></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

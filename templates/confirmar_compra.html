@@ -46,7 +46,7 @@
 
   <!-- Barra de navegação simples com link para voltar -->
   <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="index.html">← Voltar para a Loja</a>
+    <a class="navbar-brand" href="/">← Voltar para a Loja</a>
   </nav>
 
   <!-- Container principal da confirmação -->
@@ -78,7 +78,10 @@
 
     <!-- Formulário para capturar dados do comprador -->
     <!-- "method=post" envia os dados e "action" define a próxima página -->
-    <form method="post" action="pedido_finalizado.html" class="mt-4">
+  <form method="post" action="/pedido_finalizado" class="mt-4">
+      <!-- envia dados do produto via campos hidden para a página final -->
+      <input type="hidden" name="product_title" value="Iphone 13 - Usado">
+      <input type="hidden" name="product_price" value="670">
       <!-- Campo para nome completo -->
       <div class="form-group">
         <label for="nome">Nome completo</label>
@@ -100,8 +103,8 @@
       </div>
       <!-- Botões de ação: cancelar volta para index e confirmar envia o formulário -->
       <div class="d-flex justify-content-between mt-4">
-        <a href="index.html" class="btn btn-voltar">← Cancelar</a>
-        <a href="pedido_finalizado.html" class="btn btn-confirmar">Confirmar Compra</a>
+        <a href="/" class="btn btn-voltar">← Cancelar</a>
+        <button type="submit" class="btn btn-confirmar">Confirmar Compra</button>
       </div>
     </form>
   </div>
