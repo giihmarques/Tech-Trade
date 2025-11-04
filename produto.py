@@ -1,179 +1,132 @@
-import os
-import sqlite3
-from flask import Flask, render_template, g, request
+from flask import Blueprint, jsonify, render_template, request, abort
+from datetime import datetime
+from src.utils.bd import ConexaoBD
 
-# Se for usar MySQL, precisa instalar mysql-connector-python
-try:
-    import mysql.connector as mysql_connector
-    from mysql.connector import errorcode as mysql_errorcode
-except ImportError:
-    mysql_connector = None
+rotas_produto = Blueprint("produto", __name__)
 
-# Configuração do Flask
-app = Flask(__name__, static_folder='.', static_url_path='')
+# ------------------- RENDERIZAÇÃO DE PÁGINAS -------------------
 
-# Configurações de DB
-MYSQL_HOST = os.environ.get('MYSQL_HOST')
-MYSQL_PORT = int(os.environ.get('MYSQL_PORT', 3306)) if os.environ.get('MYSQL_PORT') else 3306
-MYSQL_USER = os.environ.get('MYSQL_USER')
-MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD')
-MYSQL_DB = os.environ.get('MYSQL_DB')
-
-USE_MYSQL = bool(MYSQL_HOST and MYSQL_USER and MYSQL_DB and mysql_connector)
-
-SQLITE_FILENAME = os.path.join(app.root_path, 'tech_trade.db')
-
-
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        if USE_MYSQL:
-            db = g._database = mysql_connector.connect(
-                host=MYSQL_HOST,
-                port=MYSQL_PORT,
-                user=MYSQL_USER,
-                password=MYSQL_PASSWORD,
-                database=MYSQL_DB,
-                autocommit=True
-            )
-        else:
-            db = g._database = sqlite3.connect(SQLITE_FILENAME)
-            db.row_factory = sqlite3.Row
-    return db
-
-
-def init_db():
-    """Inicializa o DB e cria a tabela products com dados de exemplo se estiver vazia."""
-    if USE_MYSQL:
-        # Cria database se não existir
-        try:
-            tmp = mysql_connector.connect(host=MYSQL_HOST, port=MYSQL_PORT, user=MYSQL_USER, password=MYSQL_PASSWORD)
-            tmp_cursor = tmp.cursor()
-            tmp_cursor.execute(f"CREATE DATABASE IF NOT EXISTS `{MYSQL_DB}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
-            tmp.close()
-        except mysql_connector.Error as err:
-            print("Erro ao criar/verificar database:", err)
-            return
-
-        conn = mysql_connector.connect(host=MYSQL_HOST, port=MYSQL_PORT, user=MYSQL_USER, password=MYSQL_PASSWORD, database=MYSQL_DB, autocommit=True)
-        cur = conn.cursor(dictionary=True)
-        cur.execute('''
-            CREATE TABLE IF NOT EXISTS products (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                title VARCHAR(255) NOT NULL,
-                image VARCHAR(255),
-                old_price DECIMAL(10,2),
-                price DECIMAL(10,2),
-                location VARCHAR(255),
-                installments VARCHAR(50),
-                stock INT DEFAULT 0
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-        ''')
-        cur.execute('SELECT COUNT(1) AS cnt FROM products')
-        row = cur.fetchone()
-        if row and row.get('cnt', 0) == 0:
-            sample = [
-                ("Iphone 13 - Usado", "tech_trade_imagens/iphone_venda1.jpg", 800, 670, "S. Bernardo do Campo", "6x", 1),
-                ("Iphone 11 - Usado", "tech_trade_imagens/iphone_venda2.jpeg", 600, 580, "São Caetano do Sul", "6x", 2),
-                ("Iphone 15 - Semi Novo", "tech_trade_imagens/iphone_venda3.jpeg", 980, 890, "Santo André", "6x", 1),
-            ]
-            cur.executemany('INSERT INTO products (title, image, old_price, price, location, installments, stock) VALUES (%s, %s, %s, %s, %s, %s, %s)', sample)
-        cur.close()
-        conn.close()
-    else:
-        need_seed = not os.path.exists(SQLITE_FILENAME)
-        conn = sqlite3.connect(SQLITE_FILENAME)
-        cur = conn.cursor()
-        cur.execute('''
-            CREATE TABLE IF NOT EXISTS products (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT NOT NULL,
-                image TEXT,
-                old_price REAL,
-                price REAL,
-                location TEXT,
-                installments TEXT,
-                stock INTEGER DEFAULT 0
-            )
-        ''')
-        conn.commit()
-        if need_seed:
-            sample = [
-                ("Iphone 13 - Usado", "tech_trade_imagens/iphone_venda1.jpg", 800, 670, "S. Bernardo do Campo", "6x", 1),
-                ("Iphone 11 - Usado", "tech_trade_imagens/iphone_venda2.jpeg", 600, 580, "São Caetano do Sul", "6x", 2),
-                ("Iphone 15 - Semi Novo", "tech_trade_imagens/iphone_venda3.jpeg", 980, 890, "Santo André", "6x", 1),
-            ]
-            cur.executemany('INSERT INTO products (title, image, old_price, price, location, installments, stock) VALUES (?, ?, ?, ?, ?, ?, ?)', sample)
-            conn.commit()
-        cur.close()
-        conn.close()
-
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        try:
-            db.close()
-        except Exception:
-            pass
-
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/login")
-def login():
-    return render_template("login.html")
-
-
-@app.route("/produtos")
-def produtos():
+@rotas_produto.get("/produtos")
+def renderizar_produtos():
+    """Renderiza a página de listagem de produtos"""
+    print ("Renderizando página de produtos...")
     try:
-        init_db()
-        db = get_db()
-        if USE_MYSQL:
-            cur = db.cursor(dictionary=True)
-            cur.execute('SELECT id, title, image, old_price, price, location, installments, stock FROM products')
-            rows = cur.fetchall()
-            products = [dict(r) for r in rows]
-        else:
-            cur = db.execute('SELECT id, title, image, old_price, price, location, installments, stock FROM products')
-            rows = cur.fetchall()
-            products = [dict(row) for row in rows]
+        return render_template("produtos.html")
+    except Exception as err:
+        print(f"Erro ao renderizar produtos: {err}")
+        abort(404)
+
+# ------------------- CONSULTAS AO BANCO -------------------
+
+@rotas_produto.get("/categorias")
+def consultar_categorias_produtos():
+    """Retorna as categorias dos produtos"""
+    try:
+        conexao = ConexaoBD()
+        categorias = conexao.select("SELECT id_categoria, nome FROM categorias_produtos_tt")
+        conexao.close()
+        return jsonify(categorias)
+    except Exception as err:
+        erro = str(err).replace("'", '"')
+        return jsonify({"erro": erro}), 500
+
+
+@rotas_produto.get("/produtos/registros")
+def consultar_produtos():
+    """Retorna a lista de produtos"""
+    try:
+        conexao_bd = ConexaoBD()
+        retorno_bd = conexao_bd.select("""
+            SELECT 
+                p.id_produto,
+                p.nome,
+                c.nome AS categoria,
+                p.preco,
+                p.estoque,
+                p.criado_em,
+                p.criado_por
+            FROM produtos_tt p
+            LEFT JOIN categorias_produtos_tt c ON p.categoria_id = c.id_categoria
+            ORDER BY p.id_produto DESC
+        """)
+        conexao_bd.close()
+
+        def formata_data(data):
+            if isinstance(data, datetime):
+                return data.strftime('%d/%m/%Y')
+            return str(data) if data else ""
+
+        def safe_float(x):
+            try:
+                return float(x) if x is not None else 0.0
+            except (TypeError, ValueError):
+                return 0.0
+
+        def safe_int(x):
+            try:
+                return int(x) if x is not None else 0
+            except (TypeError, ValueError):
+                try:
+                    return int(float(x))
+                except Exception:
+                    return 0
+
+        json_produtos = []
+        for p in retorno_bd:
+            row = tuple(p)
+            preco_val = safe_float(row[3])
+            estoque_val = safe_int(row[4])
+            criado = row[5]
+
+            json_produtos.append({
+                "id_produto": row[0],
+                "nome": row[1] or "",
+                "categoria": row[2] or "",
+                "preco": round(preco_val, 2),
+                "preco_formatado": f"{preco_val:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'),
+                "estoque": estoque_val,
+                "disponivel": estoque_val > 0,
+                "criado_em": formata_data(criado),
+                "criado_em_iso": criado.isoformat() if isinstance(criado, datetime) else (str(criado) if criado else ""),
+                "criado_por": row[6] or ""
+            })
+
+        return jsonify({"json_produtos": json_produtos})
+
+    except Exception as err:
+        erro = str(err).replace("'", '"')
+        return jsonify({"erro": erro}), 500
+    
+# ------------------- CADASTRO DE VENDEDORES -------------------
+
+@rotas_produto.route('/api/vendedores', methods=['POST'])
+def cadastrar_vendedor():
+    try:
+        dados = request.get_json()
+
+        nome = dados.get('nome')
+        email = dados.get('email')
+        senha = dados.get('senha')
+        meio_comunicacao = dados.get('meio_comunicacao')
+
+        # --- Validação básica ---
+        if not nome or not email or not senha or not meio_comunicacao:
+            return jsonify({"erro": "Campos obrigatórios faltando"}), 400
+
+        # --- Inserir no banco de dados ---
+        conexao = ConexaoBD()
+        sql = """
+            INSERT INTO vendedores_tt (nome, email, senha, meio_comunicacao, criado_em)
+            VALUES (%s, %s, %s, %s, NOW())
+        """
+        conexao.insert(sql, (nome, email, senha, meio_comunicacao))
+        conexao.close()
+
+        print(f"✅ Novo vendedor cadastrado: {nome} ({meio_comunicacao})")
+
+        return jsonify({"mensagem": "Vendedor cadastrado com sucesso!"}), 201
+
     except Exception as e:
-        print('Aviso: não foi possível obter produtos do DB, usando dados de exemplo. Erro:', e)
-        products = [
-            {'id': 1, 'title': 'Iphone 13 - Usado', 'image': 'tech_trade_imagens/iphone_venda1.jpg', 'old_price': 800, 'price': 670, 'location': 'S. Bernardo do Campo', 'installments': '6x', 'stock': 1},
-        ]
+        return jsonify({"erro": str(e)}), 500
 
-    for p in products:
-        if p.get('image') and not p['image'].startswith('/'):
-            p['image_url'] = '/' + p['image']
-        else:
-            p['image_url'] = p.get('image') or '/tech_trade_imagens/placeholder.jpg'
-    return render_template("produtos.html", products=products)
-
-
-@app.route("/confirmar_compra")
-def confirmar_compra():
-    return render_template("confirmar_compra.html")
-
-
-@app.route("/pedido_finalizado", methods=['GET', 'POST'])
-def pedido_finalizado():
-    if request.method == 'POST' or request.form:
-        nome = request.form.get('nome', 'cliente')
-        endereco = request.form.get('endereco', '')
-        pagamento = request.form.get('pagamento', '')
-        product_title = request.form.get('product_title', 'Produto')
-        product_price = request.form.get('product_price', '')
-        return render_template('pedido_finalizado.html', cliente_nome=nome, endereco=endereco, pagamento=pagamento, product_title=product_title, product_price=product_price)
-    return render_template("pedido_finalizado.html")
-
-
-if __name__ == "__main__":
-    init_db()
-    app.run(debug=True)
+    
