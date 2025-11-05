@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css_tech_trade/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <title>Produtos</title>
+
+    <style>
+        /* ===== Modal ===== */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 999;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0,0,0,0.5);
+        }
+
+        /* Ativa quando clicado no link */
+        .modal:target {
+          display: block;
+        }
+
+        .modal-content {
+          background-color: #fff;
+          margin: 12% auto;
+          padding: 20px;
+          border-radius: 8px;
+          width: 400px;
+          text-align: center;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          position: relative;
+          animation: fadeIn 0.3s ease;
+        }
+
+        /* Animação suave */
+        @keyframes fadeIn {
+          from {opacity: 0; transform: translateY(-20px);}
+          to {opacity: 1; transform: translateY(0);}
+        }
+
+        .fechar {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          text-decoration: none;
+          font-size: 22px;
+          color: black;
+        }
+
+        .modal-botoes {
+          margin-top: 20px;
+          display: flex;
+          gap: 20px;
+          justify-content: space-around;
+        }
+
+        .continuar {
+          background-color: #ababab;
+          padding: 10px 10px;
+          border-radius: 5px;
+          color: white;
+          text-decoration: none;
+        }
+
+        .ir-carrinho {
+          background-color: #3498db;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 5px;
+          text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+  
+ <nav class="navbar">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="./tech_trade_imagens/banner2.jpg" alt="Logo" />
+    </div>
+
+    <!-- Links do menu -->
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="#">SOBRE</a></li>
+      <li><a href="#">TROCA DE APARELHOS</a></li>
+      <li><a href="login.html">CADASTRO</a></li>
+      <li><a href="#modalCadastroVendedor">CADASTRAR VENDEDOR</a></li>
+
+    </ul>
+  </nav>
+
+   
+    <!-- Conteúdo principal da página de locais -->
+    <main class="locais-container">
+        <!-- Título da página -->
+        <h1 class="titulo-principal">LOCAIS E APARELHOS</h1>
+        
+        <!-- Seção de filtros -->
+        <section class="filtros-container">
+            <h2 class="filtros-titulo">FILTROS</h2>
+            <ul class="filtros-lista">
+                <li><strong>Preço</strong></li>
+                <li><strong>Categoria</strong></li>
+                <li><strong>Estado</strong></li>
+                <li><strong>Localização</strong></li>
+            </ul>
+        </section>
+        
+        <!-- Linha divisória -->
+        <hr class="divisor">
+        
+        <!-- Lista de locais -->
+        <section class="locais-lista">
+            <!-- Card de local 1 -->
+            <div class="local-card">
+                <img src="/tech_trade_imagens/iphone_venda1.jpg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Iphone 13 - Usado</h3>
+                <p class="local-endereco">De R$800 por R$670</p>
+                <p class="local-endereco">Em até 6x sem juros - S. Bernardo do Campo</p>
+                <p class="local-endereco">Teste estoque - 1/10</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
+            </div>
+            
+            <!-- Card de local 2 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/iphone_venda2.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Iphone 11 - Usado</h3>
+                <p class="local-endereco">De R$600 por R$580</p>
+                <p class="local-endereco">Em até 6x sem juros - São Caetano do Sul</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
+            </div>
+            
+            <!-- Card de local 3 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/iphone_venda3.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Iphone 15 - Semi Novo</h3>
+                <p class="local-endereco">De R$980 por R$890</p>
+                <p class="local-endereco">Em até 6x sem juros - Santo André</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
+            </div>
+            
+            <!-- Card de local 4 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/samsungvenda1.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Samsung Galaxy S20</h3>
+                <p class="local-endereco">De R$889 por R$830</p>
+                <p class="local-endereco">Em até 6x sem juros - S. Bernardo do Campo</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
+            </div>
+
+            <!-- Card de local 5 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/samsungvenda2.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Samsung Galaxy S21FE</h3>
+                <p class="local-endereco">De R$679 por R$650</p>
+                <p class="local-endereco">Em até 6x sem juros - Santo André</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
+            </div>
+
+            <!-- Card de local 6 -->
+            <div class="local-card">
+                 <img src="/tech_trade_imagens/samsungvenda3.jpeg" alt="Celular usado - modelo X" class="local-thumb">
+                <h3 class="local-titulo">Samsung A50</h3>
+                <p class="local-endereco">De R$490 por R$468</p>
+                <p class="local-endereco">Em até 6x sem juros - S. Bernardo do Campo</p>
+                <a href="#modalCarrinho" class="local-info">Colocar no carrinho</a>
+            </div>
+
+        </section>
+        
+        <!-- Paginação -->
+        <div class="paginacao">
+            <div class="paginacao-numeros">
+                <a href="#" class="paginacao-numero">1</a>
+                <a href="#" class="paginacao-numero">2</a>
+                <a href="#" class="paginacao-numero">3</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal único -->
+    <div id="modalCarrinho" class="modal">
+      <div class="modal-content">
+        <a href="#" class="fechar">&times;</a>
+        <div class="modal-body">
+          <h3>🛒 Produto adicionado ao carrinho!</h3>
+          <p>O que você deseja fazer agora?</p>
+          <div class="modal-botoes">
+            <a href="#" class="continuar">CONTINUAR COMPRANDO</a>
+            <a href="confirmar_compra.html" class="ir-carrinho">IR PARA O CARRINHO</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal de Cadastro do Vendedor -->
+<div id="modalCadastroVendedor" class="modal">
+  <div class="modal-content" style="width:520px; max-width:95%;">
+    <a href="#" class="fechar">&times;</a>
+    <h3 style="margin-top:0">Cadastrar Vendedor</h3>
+
+    <form id="form-cadastro-vendedor" action="/techtrade/vendedores" method="post">
+      <div class="form-group">
+        <label for="nome_vendedor">Nome</label>
+        <input type="text" class="form-control" id="nome_vendedor" name="nome" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email_vendedor">E-mail</label>
+        <input type="email" class="form-control" id="email_vendedor" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telefone_vendedor">Telefone/Celular</label>
+        <input type="tel" class="form-control" id="telefone_vendedor" name="telefone" placeholder="+55 11 9xxxx-xxxx" required>
+      </div>
+
+      <div class="form-group">
+        <label for="meio_comunicacao">Meio de comunicação preferido</label>
+        <select class="form-control" id="meio_comunicacao" name="meio_comunicacao" required>
+          <option value="">Selecione...</option>
+          <option value="email">E-mail</option>
+          <option value="ligacao">Ligação no celular</option>
+          <option value="sms">Mensagem (SMS)</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="outro">Outro (ex: fumaça 😄)</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="meio_comunicacao_outro_wrapper" style="display:none;">
+        <label for="meio_comunicacao_outro">Especifique outro meio</label>
+        <input type="text" class="form-control" id="meio_comunicacao_outro" name="meio_comunicacao_outro" placeholder="Descreva outro meio (ex: fumaça)">
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:12px;">
+        <a href="#" class="continuar" style="text-decoration:none; padding:8px 12px;">Cancelar</a>
+        <button type="submit" class="ir-carrinho" id="btn-cadastrar-vendedor" style="padding:8px 14px;">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+</body>
+</html>
